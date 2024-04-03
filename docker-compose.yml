@@ -1,0 +1,22 @@
+services:
+  homeassistant:
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    container_name: homeassistant
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+      - ./config:/config
+  ewelink:
+    image: ewelink-smarthome
+    build: ./addons/ewelink/eWeLink_Smart_Home
+    container_name: ewelink
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+        - ./addons/ewelink/eWeLink_Smart_Home/volume:/data
+    environment:
+        - HA_URL=${HOME_ASSISTANT_URL}
+        - SUPERVISOR_TOKEN=${HOME_ASSISTANT_EWELINK_TOKEN}
