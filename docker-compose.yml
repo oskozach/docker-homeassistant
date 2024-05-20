@@ -19,6 +19,7 @@ services:
       - HA_URL=${HOME_ASSISTANT_URL}
       - SUPERVISOR_TOKEN=${HOME_ASSISTANT_EWELINK_TOKEN}
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - ewelink_data:/data
   tasmoadmin:
     image: 'raymondmm/tasmoadmin:v1.7.0'
@@ -27,6 +28,7 @@ services:
     ports:
       - 8080:80
     volumes:
+      - /etc/localtime:/etc/localtime:ro
       - tasmoadmin_data:/data
 networks:
   default:
