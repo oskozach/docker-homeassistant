@@ -15,8 +15,25 @@ services:
     container_name: ewelink
     restart: unless-stopped
     network_mode: host
-    volumes:
-      - ./addons/ewelink/eWeLink_Smart_Home/volume:/data
     environment:
       - HA_URL=${HOME_ASSISTANT_URL}
       - SUPERVISOR_TOKEN=${HOME_ASSISTANT_EWELINK_TOKEN}
+    volumes:
+      - ewelink_data:/data
+  tasmoadmin:
+    image: 'raymondmm/tasmoadmin:v1.7.0'
+    container_name: tasmoadmin
+    restart: unless-stopped
+    ports:
+      - 8080:80
+    volumes:
+      - tasmoadmin_data:/data
+networks:
+  default:
+    name: tunnel_net
+    external: true
+volumes:
+  ewelink_data:
+    name: "ewelink_data"
+  tasmoadmin_data:
+    name: "tasmoadmin_data"
