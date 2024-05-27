@@ -9,6 +9,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
       - ./config:/config
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homeassistant.rule=Host(`${HASS_DASHBOARD_URL}`)"
+      - "traefik.http.routers.homeassistant.entrypoints=https"
+      - "traefik.http.routers.homeassistant.tls=true"
+      - "traefik.http.services.homeassistant.loadbalancer.server.port=${HASS_PORT}"
   ewelink:
     build: ./addons/ewelink/eWeLink_Smart_Home
     image: ewelink-smarthome
@@ -16,24 +22,31 @@ services:
     restart: unless-stopped
     network_mode: host
     environment:
-      - HA_URL=${HOME_ASSISTANT_URL}
-      - SUPERVISOR_TOKEN=${HOME_ASSISTANT_EWELINK_TOKEN}
+      - HA_URL=${EWELINK_HASS_URL}
+      - SUPERVISOR_TOKEN=${EWELINK_HASS_TOKEN}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ewelink_data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ewelink.rule=Host(`${EWELINK_DASHBOARD_URL}`)"
+      - "traefik.http.routers.ewelink.entrypoints=https"
+      - "traefik.http.routers.ewelink.tls=true"
+      - "traefik.http.services.ewelink.loadbalancer.server.port=${EWELINK_PORT}"
   tasmoadmin:
     image: 'raymondmm/tasmoadmin:v1.7.0'
     container_name: tasmoadmin
     restart: unless-stopped
-    ports:
-      - 8080:80
+    network_mode: host
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - tasmoadmin_data:/data
-networks:
-  default:
-    name: tunnel_net
-    external: true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tasmoadmin.rule=Host(`${TASMOADMIN_DASHBOARD_URL}`)"
+      - "traefik.http.routers.tasmoadmin.entrypoints=https"
+      - "traefik.http.routers.tasmoadmin.tls=true"
+      - "traefik.http.services.tasmoadmin.loadbalancer.server.port=${TASMOADMIN_PORT}"
 volumes:
   ewelink_data:
     name: "ewelink_data"
