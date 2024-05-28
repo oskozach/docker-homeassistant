@@ -14,7 +14,7 @@ services:
       - "traefik.http.routers.homeassistant.rule=Host(`${HASS_DASHBOARD_URL}`)"
       - "traefik.http.routers.homeassistant.entrypoints=https"
       - "traefik.http.routers.homeassistant.tls=true"
-      - "traefik.http.services.homeassistant.loadbalancer.server.port=${HASS_PORT}"
+      - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
   ewelink:
     build: ./addons/ewelink/eWeLink_Smart_Home
     image: ewelink-smarthome
@@ -32,7 +32,7 @@ services:
       - "traefik.http.routers.ewelink.rule=Host(`${EWELINK_DASHBOARD_URL}`)"
       - "traefik.http.routers.ewelink.entrypoints=https"
       - "traefik.http.routers.ewelink.tls=true"
-      - "traefik.http.services.ewelink.loadbalancer.server.port=${EWELINK_PORT}"
+      - "traefik.http.services.ewelink.loadbalancer.server.port=3000"
   tasmoadmin:
     image: 'raymondmm/tasmoadmin:v1.7.0'
     container_name: tasmoadmin
