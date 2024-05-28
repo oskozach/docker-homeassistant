@@ -3,6 +3,7 @@ extras
 logs
 .env
 addons
+config/custom_components
 *.log
 *.log.*
 *.db
