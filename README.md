@@ -1,10 +1,6 @@
-# Home Assistant Docker Setup
+# Docker | Home Assistant
 
-## Env & Secrets Files
-```
-cp env.example .env && cp secrets.example config/secrets.yaml
-```
-- Edit the values in `.env` and `config/secrets.yaml` files
+This is a Home Assistant setup running in Docker, supporting Node-RED custom component and eWeLink Smart Home, TasmoAdmin addons.
 
 ## Node Red Custom Component
 ```

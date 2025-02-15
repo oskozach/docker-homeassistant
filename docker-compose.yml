@@ -1,6 +1,6 @@
 services:
   homeassistant:
-    image: "ghcr.io/home-assistant/home-assistant:2024.5"
+    image: ghcr.io/home-assistant/home-assistant:${HASS_IMG_VERSION}
     container_name: homeassistant
     restart: unless-stopped
     privileged: true
@@ -17,7 +17,7 @@ services:
       - "traefik.http.services.homeassistant.loadbalancer.server.port=8123"
   ewelink:
     build: ./addons/ewelink/eWeLink_Smart_Home
-    image: ewelink-smarthome
+    image: ewelink-smart-home
     container_name: ewelink
     restart: unless-stopped
     network_mode: host
@@ -34,7 +34,7 @@ services:
       - "traefik.http.routers.ewelink.tls=true"
       - "traefik.http.services.ewelink.loadbalancer.server.port=3000"
   tasmoadmin:
-    image: 'raymondmm/tasmoadmin:v1.7.0'
+    image: raymondmm/tasmoadmin:${TASMOADMIN_IMG_VERSION}
     container_name: tasmoadmin
     restart: unless-stopped
     network_mode: host
